@@ -39,7 +39,7 @@ BASENAME="$(basename "$VIDEO_FILE" | cut -f 1 -d '.')"
 OUTPUT_IMAGE="${VIDEO_DIR}/${BASENAME}_mosaic.jpg"
 
 # Temporary directory for frames
-TEMP_DIR="${VIDEO_DIR}/frames_${BASENAME}"
+TEMP_DIR="/tmp/frames_${BASENAME}"
 mkdir -p "$TEMP_DIR"
 
 # Calculate video duration in seconds using ffprobe
@@ -90,7 +90,7 @@ for i in $(seq 1 9); do
 
   # Capture the frame at the specified timestamp
   OUTPUT_FRAME="${TEMP_DIR}/frame_${i}.jpg"
-  ffmpeg -y -loglevel error -ss "$TIMESTAMP_FORMATTED" -i "$VIDEO_FILE" -frames:v 1 -q:v 2 "$OUTPUT_FRAME"
+  ffmpeg -nostdin -y -loglevel error -ss "$TIMESTAMP_FORMATTED" -i "$VIDEO_FILE" -frames:v 1 -q:v 2 "$OUTPUT_FRAME"
 done
 
 # Create a 3x3 mosaic using ImageMagick
